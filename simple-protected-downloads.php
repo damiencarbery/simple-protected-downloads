@@ -1,13 +1,15 @@
 <?php
 /*
- * Plugin Name: Simple Protected Downloads
- * Description: Limit access to specified media files to logged in users. Very simple interface with no unnecessary features.
- * Plugin URI: https://www.damiencarbery.com/
- * Update URI: https://www.damiencarbery.com/
- * Author: Damien Carbery
- * Author URI: https://www.damiencarbery.com
- * Text Domain: simple_protected_downloads
- * Version: 0.1.20260111
+Plugin Name: Simple Protected Downloads
+Description: Limit access to specified media files to logged in users. Very simple interface with no unnecessary features.
+Plugin URI: https://www.damiencarbery.com/
+Author: Damien Carbery
+Author URI: https://www.damiencarbery.com
+License: GPL v3 or later
+License URI: https://www.gnu.org/licenses/gpl-3.0.html
+Text Domain: simple-protected-downloads
+Domain Path: /languages
+Version: 0.1.20260111
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -105,37 +107,37 @@ class SimpleProtectedDownloads {
 	public function register_cpt() {
 // ToDo: Review all these labels - can some be removed?
 		$labels = array(
-			'name'                  => _x( 'Downloads', 'Post Type General Name', 'simple_protected_downloads' ),
-			'singular_name'         => _x( 'Download', 'Post Type Singular Name', 'simple_protected_downloads' ),
-			'menu_name'             => __( 'Downloads', 'simple_protected_downloads' ),
-			'name_admin_bar'        => __( 'Download', 'simple_protected_downloads' ),
-			'archives'              => __( 'Download Archives', 'simple_protected_downloads' ),
-			'attributes'            => __( 'Download Attributes', 'simple_protected_downloads' ),
-			'parent_item_colon'     => __( 'Parent download:', 'simple_protected_downloads' ),
-			'all_items'             => __( 'All downloads', 'simple_protected_downloads' ),
-			'add_new_item'          => __( 'Add new download', 'simple_protected_downloads' ),
-			'add_new'               => __( 'Add download', 'simple_protected_downloads' ),
-			'new_item'              => __( 'New download', 'simple_protected_downloads' ),
-			'edit_item'             => __( 'Edit download', 'simple_protected_downloads' ),
-			'update_item'           => __( 'Update download', 'simple_protected_downloads' ),
-			'view_item'             => __( 'View download', 'simple_protected_downloads' ),
-			'view_items'            => __( 'View downloads', 'simple_protected_downloads' ),
-			'search_items'          => __( 'Search download', 'simple_protected_downloads' ),
-			'not_found'             => __( 'Not found', 'simple_protected_downloads' ),
-			'not_found_in_trash'    => __( 'Not found in Trash', 'simple_protected_downloads' ),
-			//'featured_image'        => __( 'Featured Image', 'simple_protected_downloads' ),
-			//'set_featured_image'    => __( 'Set featured image', 'simple_protected_downloads' ),
-			//'remove_featured_image' => __( 'Remove featured image', 'simple_protected_downloads' ),
-			//'use_featured_image'    => __( 'Use as featured image', 'simple_protected_downloads' ),
-			'insert_into_item'      => __( 'Insert into item', 'simple_protected_downloads' ),
-			'uploaded_to_this_item' => __( 'Uploaded to this download', 'simple_protected_downloads' ),
-			'items_list'            => __( 'Downloads list', 'simple_protected_downloads' ),
-			'items_list_navigation' => __( 'Downloads list navigation', 'simple_protected_downloads' ),
-			'filter_items_list'     => __( 'Filter downloads list', 'simple_protected_downloads' ),
+			'name'                  => _x( 'Downloads', 'Post Type General Name', 'simple-protected-downloads' ),
+			'singular_name'         => _x( 'Download', 'Post Type Singular Name', 'simple-protected-downloads' ),
+			'menu_name'             => __( 'Downloads', 'simple-protected-downloads' ),
+			'name_admin_bar'        => __( 'Download', 'simple-protected-downloads' ),
+			'archives'              => __( 'Download Archives', 'simple-protected-downloads' ),
+			'attributes'            => __( 'Download Attributes', 'simple-protected-downloads' ),
+			'parent_item_colon'     => __( 'Parent download:', 'simple-protected-downloads' ),
+			'all_items'             => __( 'All downloads', 'simple-protected-downloads' ),
+			'add_new_item'          => __( 'Add new download', 'simple-protected-downloads' ),
+			'add_new'               => __( 'Add download', 'simple-protected-downloads' ),
+			'new_item'              => __( 'New download', 'simple-protected-downloads' ),
+			'edit_item'             => __( 'Edit download', 'simple-protected-downloads' ),
+			'update_item'           => __( 'Update download', 'simple-protected-downloads' ),
+			'view_item'             => __( 'View download', 'simple-protected-downloads' ),
+			'view_items'            => __( 'View downloads', 'simple-protected-downloads' ),
+			'search_items'          => __( 'Search download', 'simple-protected-downloads' ),
+			'not_found'             => __( 'Not found', 'simple-protected-downloads' ),
+			'not_found_in_trash'    => __( 'Not found in Trash', 'simple-protected-downloads' ),
+			//'featured_image'        => __( 'Featured Image', 'simple-protected-downloads' ),
+			//'set_featured_image'    => __( 'Set featured image', 'simple-protected-downloads' ),
+			//'remove_featured_image' => __( 'Remove featured image', 'simple-protected-downloads' ),
+			//'use_featured_image'    => __( 'Use as featured image', 'simple-protected-downloads' ),
+			'insert_into_item'      => __( 'Insert into item', 'simple-protected-downloads' ),
+			'uploaded_to_this_item' => __( 'Uploaded to this download', 'simple-protected-downloads' ),
+			'items_list'            => __( 'Downloads list', 'simple-protected-downloads' ),
+			'items_list_navigation' => __( 'Downloads list navigation', 'simple-protected-downloads' ),
+			'filter_items_list'     => __( 'Filter downloads list', 'simple-protected-downloads' ),
 		);
 		$args = array(
-			'label'                 => __( 'Download', 'simple_protected_downloads' ),
-			'description'           => __( 'Protected downloads', 'simple_protected_downloads' ),
+			'label'                 => __( 'Download', 'simple-protected-downloads' ),
+			'description'           => __( 'Protected downloads', 'simple-protected-downloads' ),
 			'labels'                => $labels,
 			'supports'              => array( 'title', 'custom-fields' ),
 			'taxonomies'            => array( 'category' ),
@@ -196,6 +198,7 @@ class SimpleProtectedDownloads {
 								header( 'Content-Type: '. $mime_type );
 							}
 
+							// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 							echo file_get_contents( $file_path );
 							exit;
 						}
@@ -213,7 +216,7 @@ class SimpleProtectedDownloads {
 	public function add_file_metabox() {
 		add_meta_box(
 			'dcwdspd_file_upload',
-			__( 'Protected File', 'simple_protected_downloads' ),
+			__( 'Protected File', 'simple-protected-downloads' ),
 			array( $this, 'file_metabox_callback' ),
 			$this->cpt_name,
 			'normal',
@@ -245,11 +248,11 @@ class SimpleProtectedDownloads {
 					<br>
 					<label>
 						<input type="checkbox" name="dcwdspd_remove_file" value="1" />
-						<?php echo __( 'Remove current file', 'simple_protected_downloads' ); ?>
+						<?php echo esc_html__( 'Remove current file', 'simple-protected-downloads' ); ?>
 					</label>
 				</p>
 			<?php } else { ?>
-				<p><em><?php echo __( 'No file uploaded yet.', 'simple_protected_downloads' ); ?></em></p>
+				<p><em><?php echo esc_html__( 'No file uploaded yet.', 'simple-protected-downloads' ); ?></em></p>
 			<?php } ?>
 		</div>
 		<?php
@@ -277,14 +280,14 @@ class SimpleProtectedDownloads {
 		if ( isset( $_POST['dcwdspd_remove_file'] ) ) {
 			$old_file = get_post_meta( $post_id, $this->meta_key, true );
 			if ( $old_file && file_exists( $this->get_uploads_dir() . $old_file ) ) {
-				unlink( $this->get_uploads_dir() . $old_file );
+				wp_delete_file( $this->get_uploads_dir() . $old_file );
 			}
 			delete_post_meta( $post_id, $this->meta_key );
 			return;
 		}
 
 		// Handle file upload
-		if ( isset( $_FILES['dcwdspd_file'] ) && $_FILES['dcwdspd_file']['error'] == 0 ) {
+		if ( isset( $_FILES['dcwdspd_file'] ) && isset( $_FILES['dcwdspd_file']['error'] ) && $_FILES['dcwdspd_file']['error'] == 0 ) {
 // ToDo: Move the dir and .htaccess creation to a separate function that can be called on plugin initialisation.
 			// Create upload directory if it doesn't exist
 			if ( !file_exists( $this->get_uploads_dir() ) ) {
@@ -300,17 +303,21 @@ class SimpleProtectedDownloads {
 			// Delete old file if exists
 			$old_file = get_post_meta( $post_id, $this->meta_key, true );
 			if ( $old_file && file_exists( $this->get_uploads_dir() . $old_file ) ) {
-				unlink( $this->get_uploads_dir() . $old_file );
+				wp_delete_file( $this->get_uploads_dir() . $old_file );
 			}
 
 			// Generate unique filename
-			$file = $_FILES['dcwdspd_file'];
-			$file_name = wp_unique_filename( $this->get_uploads_dir(), $file[ 'name' ] );
-			$file_path = $this->get_uploads_dir() . $file_name;
+			$file = isset( $_FILES['dcwdspd_file'] ) ? $_FILES['dcwdspd_file'] : null;
+			if ( $file ) {
+				$file_name = wp_unique_filename( $this->get_uploads_dir(), $file[ 'name' ] );
+				$file_path = $this->get_uploads_dir() . $file_name;
 
-			// Move uploaded file
-			if ( move_uploaded_file( $file['tmp_name'], $file_path ) ) {
-				update_post_meta( $post_id, $this->meta_key, $file_name );
+				// Move uploaded file
+// move_uploaded_file() is not permitted, per Plugin Check tests.
+// Maybe use: https://wordpress.stackexchange.com/q/346316
+				if ( move_uploaded_file( $file['tmp_name'], $file_path ) ) {
+					update_post_meta( $post_id, $this->meta_key, $file_name );
+				}
 			}
 		}
 	}
@@ -323,8 +330,8 @@ class SimpleProtectedDownloads {
 		foreach ( $columns as $key => $value ) {
 			$new_columns[$key] = $value;
 			if ( $key === 'title' ) {
-				$new_columns[ $this->link_col ] = __( 'Download link', 'simple_protected_downloads' );
-				$new_columns[ $this->meta_key ] = __( 'File', 'simple_protected_downloads' );
+				$new_columns[ $this->link_col ] = __( 'Download link', 'simple-protected-downloads' );
+				$new_columns[ $this->meta_key ] = __( 'File', 'simple-protected-downloads' );
 			}
 		}
 		return $new_columns;
@@ -346,7 +353,7 @@ class SimpleProtectedDownloads {
 					}
 					if ( $column == $this->link_col ) {
 						echo wp_sprintf( '<div class="spd-copy-url dashicons dashicons-admin-links" data-spd_url="%s" title="%s"></div>',
-						$this->get_download_url( $post_id ), __( 'Click to copy the download url.', 'simple_protected_downloads' ) );
+						esc_attr( $this->get_download_url( $post_id ) ), esc_html__( 'Click to copy the download url.', 'simple-protected-downloads' ) );
 						return;
 					}
 				}
