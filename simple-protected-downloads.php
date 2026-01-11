@@ -7,11 +7,10 @@
  * Author: Damien Carbery
  * Author URI: https://www.damiencarbery.com
  * Text Domain: simple_protected_downloads
- * Version: 0.1.20260109
+ * Version: 0.1.20260111
  */
 
 defined( 'ABSPATH' ) || exit;
-
 
 
 /*
@@ -33,11 +32,12 @@ function deactivate() {
 
 
 class SimpleProtectedDownloads {
-	private $cpt_name = 'dcwd_simple_download';
-	private $meta_key = 'protected_file';
-	private $download_url = 'spdownload';
-	private $link_col = 'spd_link';
+	private $cpt_name;
+	private $meta_key;
+	private $download_url;
+	private $link_col;
 	private $uploads_dir;
+
 
 	// Returns an instance of this class. 
 	public static function get_instance() {
@@ -50,6 +50,11 @@ class SimpleProtectedDownloads {
 
 	// Initialize the plugin variables.
 	public function __construct() {
+		$this->cpt_name = 'dcwd_simple_download';
+		$this->meta_key = 'protected_file';
+		$this->download_url = 'spdownload';
+		$this->link_col = 'spd_link';
+
 		$this->init();
 	}
 
@@ -61,6 +66,7 @@ class SimpleProtectedDownloads {
 		// Register the download url.
 		add_action( 'init', array( $this, 'register_download_endpoint' ) );
 
+
 		// Download the requested file.
 		add_action( 'template_include', array( $this, 'download_file' ) );
 
@@ -68,7 +74,6 @@ class SimpleProtectedDownloads {
 		add_action( 'add_meta_boxes', array( $this, 'add_file_metabox' ) );
 		// Enable file uploads on the Edit Download admin page.
 		add_action( 'post_edit_form_tag', array( $this, 'enable_upload_support' ) );
-		//add_action( 'wp_enqueue_scripts', array( $this, 'file_upload_scripts' ) );
 
 		// Save the data submitted through the metabox.
 		add_action( 'save_post_' . $this->cpt_name, array( $this, 'save_file_metabox' ) );
@@ -78,8 +83,6 @@ class SimpleProtectedDownloads {
 		add_action( 'manage_' . $this->cpt_name . '_posts_custom_column', array( $this, 'display_file_column' ), 10, 2 );
 		// Add the JS to allow copying of the download url to the clipboard.
 		add_action( 'in_admin_footer', array( $this, 'add_download_url_copying_js' ));
-//add_filter( 'manage_edit-' . $this->cpt_name . '_sortable_columns', array( $this, 'sortable_file_column' ) );
-//add_action( 'pre_get_posts', array( $this, 'file_column_orderby' ) );
 
 // ToDo: Add code to delete the uploaded file when a post is deleted.
 	}
@@ -164,36 +167,46 @@ class SimpleProtectedDownloads {
 	public function download_file( $template ) {
 		global $wp_query;
 
-		if (isset($wp_query->query_vars[$this->download_url])) {
+		if ( isset( $wp_query->query_vars[ $this->download_url ] ) ) {
 			$post_id = intval( $wp_query->query_vars[ $this->download_url ] );
 			if ( $post_id ) {
-				$file_name = get_post_meta( $post_id, $this->meta_key, true );
-				if ( $file_name ) {
-error_log( 'download_file $file_name: ' . $file_name );
-					$file_path = $this->get_uploads_dir() . $file_name;
-					if ( file_exists( $file_path ) && is_readable( $file_path ) ) {
-error_log( 'download_file $file_path: ' . $file_path );
-						header( 'X-Robots-Tag: noindex, nofollow', true );
-						//header( 'Content-Type: ' . self::get_download_content_type( $file_path ) );
-						header( 'Content-Type: image/png' );
-						header( 'Content-Description: File Transfer' );
-						//header( 'Content-Disposition: ' . self::get_content_disposition() . '; filename="' . $file_name . '";' );
-						header( 'Content-Disposition: attachment; filename="' . $file_name . '";' );
-						header( 'Content-Transfer-Encoding: binary' );
+				// Ensure that the user is logged in before allowing the download.
+				$user_logged_in = is_user_logged_in();
+				// Developers can use the filter to change the access permissions.
+				$user_can_download = apply_filters( 'spdownload_check_perms', $user_logged_in, $post_id );
 
-						echo file_get_contents( $file_path );
-						wp_die();
+				if ( $user_can_download ) {
+					$file_name = get_post_meta( $post_id, $this->meta_key, true );
+					if ( $file_name ) {
+						//error_log( 'download_file $file_name: ' . $file_name );
+						$file_path = $this->get_uploads_dir() . $file_name;
+						if ( file_exists( $file_path ) && is_readable( $file_path ) ) {
+							//error_log( 'download_file $file_path: ' . $file_path );
+
+							header( 'X-Robots-Tag: noindex, nofollow', true );
+							header( 'Cache-Control: no-cache, must-revalidate, max-age=0, no-store, private' );
+							header( 'Content-Description: File Transfer', false );
+							header( 'Content-Disposition: attachment; filename="' . $file_name . '";', false );
+							header( 'Content-Transfer-Encoding: binary' );
+							header( 'Keep-Alive: timeout=5, max=100' );
+							header( 'Connection: Keep-Alive' );
+							header( 'Content-Transfer-Encoding: binary' );
+							$mime_type = mime_content_type( $file_path );
+							if ( $mime_type ) {
+								header( 'Content-Type: '. $mime_type );
+							}
+
+							echo file_get_contents( $file_path );
+							exit;
+						}
 					}
 				}
-			//$output = 'Accessed download url: ' . $wp_query->query_vars[ $this->download_url ];
-			//echo $output;
 			}
-			exit;
 		}
 
-    // Nothing matched our endpoint.
-    return $template;
-}
+		// Nothing matched our endpoint.
+		return $template;
+	}
 
 
 	// Add metabox for file upload to 'dcwd_simple_download' custom post type
@@ -303,88 +316,6 @@ error_log( 'download_file $file_path: ' . $file_path );
 	}
 
 
-	public function file_upload_scripts() {
-		$version = null; // Could use plugin version.
-		// ToDo: Limit to a specific screen.
-		// if ( in_array( $screen_id, array( 'product', 'edit-product' ) ) )
-		//wp_enqueue_script( 'spd-file-upload', __DIR__ . '/spd-file-upload.js', array( 'wc-admin-meta-boxes', 'media-models' ), $version );
-// See woocommerce/assets/js/admin/meta-boxes-product.js
-/*
-	// Uploading files.
-	var downloadable_file_frame;
-	var file_path_field;
-
-	$( document.body ).on( 'click', '.upload_file_button', function ( event ) {
-		var $el = $( this );
-
-		file_path_field = $el.closest( 'tr' ).find( 'td.file_url input' );
-
-		event.preventDefault();
-
-		// If the media frame already exists, reopen it.
-		if ( downloadable_file_frame ) {
-			downloadable_file_frame.open();
-			return;
-		}
-
-		var downloadable_file_states = [
-			// Main states.
-			new wp.media.controller.Library( {
-				library: wp.media.query(),
-				multiple: true,
-				title: $el.data( 'choose' ),
-				priority: 20,
-				filterable: 'uploaded',
-			} ),
-		];
-
-		// Create the media frame.
-		downloadable_file_frame = wp.media.frames.downloadable_file = wp.media(
-			{
-				// Set the title of the modal.
-				title: $el.data( 'choose' ),
-				library: {
-					type: '',
-				},
-				button: {
-					text: $el.data( 'update' ),
-				},
-				multiple: true,
-				states: downloadable_file_states,
-			}
-		);
-
-		// When an image is selected, run a callback.
-		downloadable_file_frame.on( 'select', function () {
-			var file_path = '';
-			var selection = downloadable_file_frame.state().get( 'selection' );
-
-			selection.map( function ( attachment ) {
-				attachment = attachment.toJSON();
-				if ( attachment.url ) {
-					file_path = attachment.url;
-				}
-			} );
-
-			file_path_field.val( file_path ).trigger( 'change' );
-		} );
-
-		// Set post to 0 and set our custom type.
-		downloadable_file_frame.on( 'ready', function () {
-			downloadable_file_frame.uploader.options.uploader.params = {
-				type: 'downloadable_product',
-			};
-		} );
-
-		// Finally, open the modal.
-		downloadable_file_frame.open();
-	} );
-
-
-*/
-	}
-
-
 	// Add custom column to dcwd_simple_download post type admin list
 	function add_file_column( $columns ) {
 		// Insert the File column after the title
@@ -439,7 +370,7 @@ error_log( 'download_file $file_path: ' . $file_path );
 jQuery(document).ready(function( $ ) {
 	// Add a class and remove it a few seconds later.
 	classToAdd = 'info-copied';
-	timeoutDelay = '3000';
+	timeoutDelay = '1000';
 
 	$( '.spd-copy-url' ).on( 'click', function() {
 		spDownloadIcon = $(this);
@@ -459,77 +390,6 @@ jQuery(document).ready(function( $ ) {
 <?php
 		}
 	}
-
-/**
- * Make the file column sortable (optional)
- */
-/*function sortable_file_column( $columns ) {
-	$columns[ $this->meta_key ] = $this->meta_key;
-	return $columns;
-}*/
-
-/**
- * Handle sorting by file column (optional)
- */
-/*function file_column_orderby( $query ) {
-	if ( !is_admin() || !$query->is_main_query() ) {
-		return;
-	}
-   
-	if ( $this->meta_key === $query->get( 'orderby' ) ) {
-		$query->set( 'meta_key', $this->meta_key );
-		$query->set( 'orderby', 'meta_value' );
-	}
-}*/
 }
-$SimpleProtectedDownloads = new SimpleProtectedDownloads;
 
-
-/*
-WooCommerce Products page: Add 'Import' and 'Export' to right of 'Add new product' button.
-
-( function ( $, woocommerce_admin ) {
-	$( function () {
-		if ( 'undefined' === typeof woocommerce_admin ) {
-			return;
-		}
-
-		// Add buttons to product screen.
-		var $product_screen = $( '.edit-php.post-type-product' ),
-			$title_action = $product_screen.find( '.page-title-action:first' ),
-			$blankslate = $product_screen.find( '.woocommerce-BlankState' );
-
-		if ( 0 === $blankslate.length ) {
-			if ( woocommerce_admin.urls.add_product ) {
-				$title_action
-					.first()
-					.attr( 'href', woocommerce_admin.urls.add_product );
-			}
-			if ( woocommerce_admin.urls.export_products ) {
-				const exportLink = document.createElement('a');
-				exportLink.href = woocommerce_admin.urls.export_products;
-				exportLink.className = 'page-title-action';
-				exportLink.textContent = woocommerce_admin.strings.export_products;
-
-				$title_action.after(exportLink);
-			}
-			if ( woocommerce_admin.urls.import_products ) {
-				const importLink = document.createElement('a');
-				importLink.href = woocommerce_admin.urls.import_products;
-				importLink.className = 'page-title-action';
-				importLink.textContent = woocommerce_admin.strings.import_products;
-
-				$title_action.after(importLink);
-			}
-		} else {
-			$title_action.hide();
-		}
-
-
-
-*/
-
-/*
-add_action( 'quick_edit_custom_box', array( $this, 'quick_edit' ), 10, 2 );
-woocommerce/includes/admin/class-wc-admin-post-types.php - to add extra markup to Quick Edit.
-*/
+$SimpleProtectedDownloads = new SimpleProtectedDownloads();
