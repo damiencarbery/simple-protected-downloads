@@ -262,7 +262,7 @@ class SimpleProtectedDownloads {
 	function save_file_metabox( $post_id ) {
 		// Check nonce
 		if ( !isset( $_POST['dcwdspd_file_nonce'] ) ||
-			!wp_verify_nonce( $_POST['dcwdspd_file_nonce'], 'dcwdspd_file_save' ) ) {
+			!wp_verify_nonce( sanitize_key( $_POST['dcwdspd_file_nonce'] ), 'dcwdspd_file_save' ) ) {
 			return;
 		}
 
@@ -306,22 +306,25 @@ class SimpleProtectedDownloads {
 				wp_delete_file( $this->get_uploads_dir() . $old_file );
 			}
 
-			// Generate unique filename
-			$file = isset( $_FILES['dcwdspd_file'] ) ? $_FILES['dcwdspd_file'] : null;
-			if ( $file ) {
-				$file_name = wp_unique_filename( $this->get_uploads_dir(), $file[ 'name' ] );
-				$file_path = $this->get_uploads_dir() . $file_name;
+			if ( isset( $_FILES['dcwdspd_file'] ) ) {
+				$movefile = wp_handle_upload( $_FILES['dcwdspd_file'], array( 'test_form' => false ) );
 
-				// Move uploaded file
-// move_uploaded_file() is not permitted, per Plugin Check tests.
-// Maybe use: https://wordpress.stackexchange.com/q/346316
-				if ( move_uploaded_file( $file['tmp_name'], $file_path ) ) {
+				if ( $movefile && ! isset( $movefile['error'] ) ) {
+					$file_name = wp_unique_filename( $this->get_uploads_dir(), basename( $movefile['file'] ) );
+
+					if ( ! class_exists( 'WP_Filesystem_Direct' ) ) {
+						require_once ABSPATH . 'wp-admin/includes/class-wp-filesystem-base.php';
+						require_once ABSPATH . 'wp-admin/includes/class-wp-filesystem-direct.php';
+					}
+					$creds = request_filesystem_credentials( site_url() . '/wp-admin/', '', false, false, array() );
+					if ( ! WP_Filesystem($creds) ) { return false; }
+					global $wp_filesystem;
+					$wp_filesystem->move( $movefile['file'], $this->get_uploads_dir() . $file_name );
 					update_post_meta( $post_id, $this->meta_key, $file_name );
 				}
 			}
 		}
 	}
-
 
 	// Add custom column to dcwd_simple_download post type admin list
 	function add_file_column( $columns ) {
