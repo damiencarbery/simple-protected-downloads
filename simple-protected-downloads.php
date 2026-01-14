@@ -9,8 +9,8 @@ License: GPL v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Text Domain: simple-protected-downloads
 Domain Path: /languages
-Version: 0.1.20260111
- */
+Version: 0.1.20260114
+*/
 
 defined( 'ABSPATH' ) || exit;
 
@@ -139,7 +139,7 @@ class SimpleProtectedDownloads {
 			'label'                 => __( 'Download', 'simple-protected-downloads' ),
 			'description'           => __( 'Protected downloads', 'simple-protected-downloads' ),
 			'labels'                => $labels,
-			'supports'              => array( 'title', 'custom-fields' ),
+			'supports'              => array( 'title' ),
 			'taxonomies'            => array( 'category' ),
 			'hierarchical'          => false,
 			'public'                => true,
@@ -307,24 +307,25 @@ class SimpleProtectedDownloads {
 			}
 
 			if ( isset( $_FILES['dcwdspd_file'] ) ) {
+				add_filter( 'upload_dir', array( $this, 'change_upload_dir' ) );
 				$movefile = wp_handle_upload( $_FILES['dcwdspd_file'], array( 'test_form' => false ) );
+				remove_filter( 'upload_dir', array( $this, 'change_upload_dir' ) );
 
 				if ( $movefile && ! isset( $movefile['error'] ) ) {
-					$file_name = wp_unique_filename( $this->get_uploads_dir(), basename( $movefile['file'] ) );
-
-					if ( ! class_exists( 'WP_Filesystem_Direct' ) ) {
-						require_once ABSPATH . 'wp-admin/includes/class-wp-filesystem-base.php';
-						require_once ABSPATH . 'wp-admin/includes/class-wp-filesystem-direct.php';
-					}
-					$creds = request_filesystem_credentials( site_url() . '/wp-admin/', '', false, false, array() );
-					if ( ! WP_Filesystem($creds) ) { return false; }
-					global $wp_filesystem;
-					$wp_filesystem->move( $movefile['file'], $this->get_uploads_dir() . $file_name );
-					update_post_meta( $post_id, $this->meta_key, $file_name );
+					update_post_meta( $post_id, $this->meta_key, basename( $movefile['file'] ) );
 				}
 			}
 		}
 	}
+
+
+	// Change the upload dir to be the custom dir.
+	public function change_upload_dir( $dirs ) {
+		$dirs['path'] = $this->get_uploads_dir();
+
+		return $dirs;
+	}
+
 
 	// Add custom column to dcwd_simple_download post type admin list
 	function add_file_column( $columns ) {
