@@ -9,7 +9,7 @@ License: GPL v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Text Domain: simple-protected-downloads
 Domain Path: /languages
-Version: 0.1.20260116
+Version: 0.1.20260118
 */
 
 defined( 'ABSPATH' ) || exit;
@@ -120,25 +120,10 @@ class SimpleProtectedDownloads {
 			'singular_name'         => _x( 'Download', 'Post Type Singular Name', 'simple-protected-downloads' ),
 			'menu_name'             => __( 'Downloads', 'simple-protected-downloads' ),
 			'name_admin_bar'        => __( 'Download', 'simple-protected-downloads' ),
-			//'archives'              => __( 'Download Archives', 'simple-protected-downloads' ),
-			//'attributes'            => __( 'Download Attributes', 'simple-protected-downloads' ),
-			//'parent_item_colon'     => __( 'Parent download:', 'simple-protected-downloads' ),
 			'all_items'             => __( 'All downloads', 'simple-protected-downloads' ),
 			'add_new_item'          => __( 'Add new download', 'simple-protected-downloads' ),
-			//'add_new'               => __( 'Add download', 'simple-protected-downloads' ),
-			//'new_item'              => __( 'New download', 'simple-protected-downloads' ),
-			//'edit_item'             => __( 'Edit download', 'simple-protected-downloads' ),
-			//'update_item'           => __( 'Update download', 'simple-protected-downloads' ),
-			//'view_item'             => __( 'View download', 'simple-protected-downloads' ),
-			//'view_items'            => __( 'View downloads', 'simple-protected-downloads' ),
-			//'search_items'          => __( 'Search download', 'simple-protected-downloads' ),
 			'not_found'             => __( 'Not found', 'simple-protected-downloads' ),
 			'not_found_in_trash'    => __( 'Not found in Trash', 'simple-protected-downloads' ),
-			//'insert_into_item'      => __( 'Insert into item', 'simple-protected-downloads' ),
-			//'uploaded_to_this_item' => __( 'Uploaded to this download', 'simple-protected-downloads' ),
-			//'items_list'            => __( 'Downloads list', 'simple-protected-downloads' ),
-			//'items_list_navigation' => __( 'Downloads list navigation', 'simple-protected-downloads' ),
-			//'filter_items_list'     => __( 'Filter downloads list', 'simple-protected-downloads' ),
 		);
 		$args = array(
 			'label'                 => __( 'Download', 'simple-protected-downloads' ),
@@ -412,7 +397,7 @@ class SimpleProtectedDownloads {
 jQuery(document).ready(function( $ ) {
 	// Add a class and remove it a few seconds later.
 	classToAdd = 'info-copied';
-	timeoutDelay = '1000';
+	timeoutDelay = '1000';  // 1000 milliseconds == 1 second.
 
 	$( '.spd-copy-url' ).on( 'click', function() {
 		spDownloadIcon = $(this);
