@@ -9,7 +9,7 @@ License: GPL v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Text Domain: simple-protected-downloads
 Domain Path: /languages
-Version: 0.1.20260118
+Version: 0.2.20260123
 */
 
 defined( 'ABSPATH' ) || exit;
@@ -74,7 +74,7 @@ class SimpleProtectedDownloads {
 		add_filter( 'manage_' . $this->cpt_name . '_posts_columns', array( $this, 'add_file_column' ) );
 		add_action( 'manage_' . $this->cpt_name . '_posts_custom_column', array( $this, 'display_file_column' ), 10, 2 );
 		// Add the JS to allow copying of the download url to the clipboard.
-		add_action( 'in_admin_footer', array( $this, 'add_download_url_copying_js' ));
+		add_action( 'admin_enqueue_scripts', array( $this, 'add_download_url_copying_js' ));
 
 		// Delete the uploaded file when a Download post is deleted.
 		add_action( 'before_delete_post', array( $this, 'delete_post' ), 10, 2 );
@@ -386,34 +386,8 @@ class SimpleProtectedDownloads {
 	function add_download_url_copying_js() {
 		$screen = get_current_screen();
 		if ( 'edit-dcwd_simple_download' == $screen->id ) {
-			$click_colour = 'green';  // This is colour the link background temporarily changes to.
-?>
-<style>
-.spd-copy-url { background-color: #2271b1; border-radius: 5px; color: #fff; cursor: pointer; padding: 5px; width: 100px; transition: all linear 0.3s; }
-.spd-copy-url.info-copied { background-color: green !important; scale: 1.1 !important; }
-.spd-copy-url.info-copied:after { content: 'Copied'; display: block; color: <?php echo esc_attr( $click_colour ); ?>; padding-top: 0.5em; font-size: 70%; font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif; }
-</style>
-<script>
-jQuery(document).ready(function( $ ) {
-	// Add a class and remove it a few seconds later.
-	classToAdd = 'info-copied';
-	timeoutDelay = '1000';  // 1000 milliseconds == 1 second.
-
-	$( '.spd-copy-url' ).on( 'click', function() {
-		spDownloadIcon = $(this);
-		spDownloadUrl = spDownloadIcon.data('spd_url');
-
-		// Add the url to the clipboard.
-		navigator.clipboard.writeText(spDownloadUrl).then(function() {
-			spDownloadIcon.addClass( classToAdd );
-			setTimeout(() => { spDownloadIcon.removeClass( classToAdd ); }, timeoutDelay )
-		}, function(err) {
-			console.error('Async: Could not copy text: ', err);
-		});
-	});
-});
-</script>
-<?php
+			wp_enqueue_style( 'simple-protected-downloads', plugins_url( 'assets/simple-protected-downloads.css', __FILE__ ) );
+			wp_enqueue_script( 'simple-protected-downloads', plugins_url( 'assets/simple-protected-downloads.js', __FILE__ ), array( 'jquery' ) );
 		}
 	}
 }

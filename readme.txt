@@ -4,7 +4,7 @@ Tags: download, downloads, download manager
 Requires at least: 6.7
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 0.1.20260118
+Stable tag: 0.2.20260123
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
