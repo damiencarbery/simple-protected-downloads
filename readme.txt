@@ -1,10 +1,10 @@
-=== Simple Protected Downloads ===
+=== Downloads for logged in users ===
 Contributors: daymobrew
 Tags: download, downloads, download manager
 Requires at least: 6.7
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 0.2.20260123
+Stable tag: 0.3.20260125
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -15,6 +15,12 @@ Limit access to specified media files to logged in users. Very simple interface 
 None yet.
 
 == Changelog ==
+
+= 0.3.20260125 =
+* Change plugin name to "Downloads for logged in users" as requested during WordPress Plugin review.
+
+= 0.2.20260118 =
+* Move CSS and JS into separate files and load with wp_enqueue_script/style.
 
 = 0.1.20260118 =
 * Initial version.

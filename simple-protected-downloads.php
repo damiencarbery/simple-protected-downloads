@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: Simple Protected Downloads
+Plugin Name: Downloads for logged in users
 Description: Limit access to specified media files to logged in users. Very simple interface with no unnecessary features.
 Plugin URI: https://www.damiencarbery.com/
 Author: Damien Carbery
@@ -9,7 +9,7 @@ License: GPL v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Text Domain: simple-protected-downloads
 Domain Path: /languages
-Version: 0.2.20260123
+Version: 0.3.20260125
 */
 
 defined( 'ABSPATH' ) || exit;
