@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Simple Protected Downloads\n"
-"POT-Creation-Date: 2026-01-18 18:32+0000\n"
-"PO-Revision-Date: 2026-01-18 18:33+0000\n"
+"Project-Id-Version: Downloads for logged in users\n"
+"POT-Creation-Date: 2026-01-26 18:32+0000\n"
+"PO-Revision-Date: 2026-01-26 18:33+0000\n"
 "Last-Translator: \n"
 "Language-Team: Damien Carbery daymobrew@yahoo.com\n"
 "Language: en_US\n"
@@ -12,61 +12,61 @@ msgstr ""
 "X-Generator: Poedit 3.8\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_x;esc_html__\n"
-"X-Poedit-SearchPath-0: simple-protected-downloads.php\n"
+"X-Poedit-SearchPath-0: downloads-for-logged-in-users.php\n"
 
-#: simple-protected-downloads.php:119 simple-protected-downloads.php:121
+#: downloads-for-logged-in-users.php:119 downloads-for-logged-in-users.php:121
 msgid "Downloads"
 msgstr ""
 
-#: simple-protected-downloads.php:120 simple-protected-downloads.php:122
-#: simple-protected-downloads.php:129
+#: downloads-for-logged-in-users.php:120 downloads-for-logged-in-users.php:122
+#: downloads-for-logged-in-users.php:129
 msgid "Download"
 msgstr ""
 
-#: simple-protected-downloads.php:123
+#: downloads-for-logged-in-users.php:123
 msgid "All downloads"
 msgstr ""
 
-#: simple-protected-downloads.php:124
+#: downloads-for-logged-in-users.php:124
 msgid "Add new download"
 msgstr ""
 
-#: simple-protected-downloads.php:125
+#: downloads-for-logged-in-users.php:125
 msgid "Not found"
 msgstr ""
 
-#: simple-protected-downloads.php:126
+#: downloads-for-logged-in-users.php:126
 msgid "Not found in Trash"
 msgstr ""
 
-#: simple-protected-downloads.php:130
+#: downloads-for-logged-in-users.php:130
 msgid "Protected downloads"
 msgstr ""
 
-#: simple-protected-downloads.php:226
+#: downloads-for-logged-in-users.php:226
 msgid "You do not have permission to download that file."
 msgstr ""
 
-#: simple-protected-downloads.php:236
+#: downloads-for-logged-in-users.php:236
 msgid "Protected File"
 msgstr ""
 
-#: simple-protected-downloads.php:270
+#: downloads-for-logged-in-users.php:270
 msgid "Remove current file"
 msgstr ""
 
-#: simple-protected-downloads.php:274
+#: downloads-for-logged-in-users.php:274
 msgid "No file uploaded yet."
 msgstr ""
 
-#: simple-protected-downloads.php:352
+#: downloads-for-logged-in-users.php:352
 msgid "Download link"
 msgstr ""
 
-#: simple-protected-downloads.php:353
+#: downloads-for-logged-in-users.php:353
 msgid "File"
 msgstr ""
 
-#: simple-protected-downloads.php:375
+#: downloads-for-logged-in-users.php:375
 msgid "Click to copy the download url."
 msgstr ""

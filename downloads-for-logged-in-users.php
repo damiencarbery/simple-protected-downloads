@@ -7,9 +7,9 @@ Author: Damien Carbery
 Author URI: https://www.damiencarbery.com
 License: GPL v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
-Text Domain: simple-protected-downloads
+Text Domain: downloads-for-logged-in-users
 Domain Path: /languages
-Version: 0.3.20260125
+Version: 0.4.20260126
 */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,15 +17,15 @@ defined( 'ABSPATH' ) || exit;
 
 // Force the rewrite rules to be regenerated after this plugin is actived.
 // Suggested at: https://developer.wordpress.org/reference/functions/flush_rewrite_rules/#comment-2645
-register_activation_hook( __FILE__, 'SimpleProtectedDownloads_activate' );
-register_deactivation_hook( __FILE__, 'SimpleProtectedDownloads_activate' );
-function SimpleProtectedDownloads_activate() {
+register_activation_hook( __FILE__, 'DownloadsForLoggedInUsers_activate' );
+register_deactivation_hook( __FILE__, 'DownloadsForLoggedInUsers_activate' );
+function DownloadsForLoggedInUsers_activate() {
 	// Force rewrite rules to be recreated at the right time
 	delete_option( 'rewrite_rules' );
 }
 
 
-class SimpleProtectedDownloads {
+class DownloadsForLoggedInUsers {
 	private $cpt_name;
 	private $meta_key;
 	private $download_url;
@@ -46,8 +46,8 @@ class SimpleProtectedDownloads {
 	public function __construct() {
 		$this->cpt_name = 'dcwd_simple_download';
 		$this->meta_key = 'protected_file';
-		$this->download_url = 'spdownload';
-		$this->link_col = 'spd_link';
+		$this->download_url = 'liudownload';
+		$this->link_col = 'liu_link';
 
 		$this->init();
 	}
@@ -116,18 +116,18 @@ class SimpleProtectedDownloads {
 	// Register the Download custom post type.
 	public function register_cpt() {
 		$labels = array(
-			'name'                  => _x( 'Downloads', 'Post Type General Name', 'simple-protected-downloads' ),
-			'singular_name'         => _x( 'Download', 'Post Type Singular Name', 'simple-protected-downloads' ),
-			'menu_name'             => __( 'Downloads', 'simple-protected-downloads' ),
-			'name_admin_bar'        => __( 'Download', 'simple-protected-downloads' ),
-			'all_items'             => __( 'All downloads', 'simple-protected-downloads' ),
-			'add_new_item'          => __( 'Add new download', 'simple-protected-downloads' ),
-			'not_found'             => __( 'Not found', 'simple-protected-downloads' ),
-			'not_found_in_trash'    => __( 'Not found in Trash', 'simple-protected-downloads' ),
+			'name'                  => _x( 'Downloads', 'Post Type General Name', 'downloads-for-logged-in-users' ),
+			'singular_name'         => _x( 'Download', 'Post Type Singular Name', 'downloads-for-logged-in-users' ),
+			'menu_name'             => __( 'Downloads', 'downloads-for-logged-in-users' ),
+			'name_admin_bar'        => __( 'Download', 'downloads-for-logged-in-users' ),
+			'all_items'             => __( 'All downloads', 'downloads-for-logged-in-users' ),
+			'add_new_item'          => __( 'Add new download', 'downloads-for-logged-in-users' ),
+			'not_found'             => __( 'Not found', 'downloads-for-logged-in-users' ),
+			'not_found_in_trash'    => __( 'Not found in Trash', 'downloads-for-logged-in-users' ),
 		);
 		$args = array(
-			'label'                 => __( 'Download', 'simple-protected-downloads' ),
-			'description'           => __( 'Protected downloads', 'simple-protected-downloads' ),
+			'label'                 => __( 'Download', 'downloads-for-logged-in-users' ),
+			'description'           => __( 'Protected downloads', 'downloads-for-logged-in-users' ),
 			'labels'                => $labels,
 			'supports'              => array( 'title' ),
 			// ToDo: Decide whether to create custom categories.
@@ -223,7 +223,7 @@ class SimpleProtectedDownloads {
 		wp_register_script( $handle, '', null, $plugin_data['Version'], true );
 		wp_enqueue_script( $handle );
 		wp_add_inline_script( $handle, "window.addEventListener('DOMContentLoaded', function() {
-		alert( \"" . esc_html__( 'You do not have permission to download that file.', 'simple-protected-downloads' ) . "\" );
+		alert( \"" . esc_html__( 'You do not have permission to download that file.', 'downloads-for-logged-in-users' ) . "\" );
 		});"
 		);
 	}
@@ -233,7 +233,7 @@ class SimpleProtectedDownloads {
 	public function add_file_metabox() {
 		add_meta_box(
 			'dcwdspd_file_upload',
-			__( 'Protected File', 'simple-protected-downloads' ),
+			__( 'Protected File', 'downloads-for-logged-in-users' ),
 			array( $this, 'file_metabox_callback' ),
 			$this->cpt_name,
 			'normal',
@@ -267,11 +267,11 @@ class SimpleProtectedDownloads {
 					<br>
 					<label>
 						<input type="checkbox" name="dcwdspd_remove_file" value="1" />
-						<?php echo esc_html__( 'Remove current file', 'simple-protected-downloads' ); ?>
+						<?php echo esc_html__( 'Remove current file', 'downloads-for-logged-in-users' ); ?>
 					</label>
 				</p>
 			<?php } else { ?>
-				<p><em><?php echo esc_html__( 'No file uploaded yet.', 'simple-protected-downloads' ); ?></em></p>
+				<p><em><?php echo esc_html__( 'No file uploaded yet.', 'downloads-for-logged-in-users' ); ?></em></p>
 			<?php } ?>
 		</div>
 		<?php
@@ -349,8 +349,8 @@ class SimpleProtectedDownloads {
 		foreach ( $columns as $key => $value ) {
 			$new_columns[$key] = $value;
 			if ( $key === 'title' ) {
-				$new_columns[ $this->link_col ] = __( 'Download link', 'simple-protected-downloads' );
-				$new_columns[ $this->meta_key ] = __( 'File', 'simple-protected-downloads' );
+				$new_columns[ $this->link_col ] = __( 'Download link', 'downloads-for-logged-in-users' );
+				$new_columns[ $this->meta_key ] = __( 'File', 'downloads-for-logged-in-users' );
 			}
 		}
 		return $new_columns;
@@ -372,7 +372,7 @@ class SimpleProtectedDownloads {
 					}
 					if ( $column == $this->link_col ) {
 						echo wp_sprintf( '<div class="spd-copy-url dashicons dashicons-admin-links" data-spd_url="%s" title="%s"></div>',
-						esc_attr( $this->get_download_url( $post_id ) ), esc_html__( 'Click to copy the download url.', 'simple-protected-downloads' ) );
+						esc_attr( $this->get_download_url( $post_id ) ), esc_html__( 'Click to copy the download url.', 'downloads-for-logged-in-users' ) );
 						return;
 					}
 				}
@@ -386,11 +386,11 @@ class SimpleProtectedDownloads {
 	function add_download_url_copying_js() {
 		$screen = get_current_screen();
 		if ( 'edit-dcwd_simple_download' == $screen->id ) {
-			wp_enqueue_style( 'simple-protected-downloads', plugins_url( 'assets/simple-protected-downloads.css', __FILE__ ) );
-			wp_enqueue_script( 'simple-protected-downloads', plugins_url( 'assets/simple-protected-downloads.js', __FILE__ ), array( 'jquery' ) );
+			wp_enqueue_style( 'downloads-for-logged-in-users', plugins_url( 'assets/downloads-for-logged-in-users.css', __FILE__ ) );
+			wp_enqueue_script( 'downloads-for-logged-in-users', plugins_url( 'assets/downloads-for-logged-in-users.js', __FILE__ ), array( 'jquery' ) );
 		}
 	}
 }
 
 //WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
-$SimpleProtectedDownloads = new SimpleProtectedDownloads();
+$DownloadsForLoggedInUsers = new DownloadsForLoggedInUsers();
