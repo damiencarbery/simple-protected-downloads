@@ -2,7 +2,7 @@
 /*
 Plugin Name: Downloads for logged in users
 Description: Limit access to specified media files to logged in users. Very simple interface with no unnecessary features.
-Plugin URI: https://www.damiencarbery.com/
+Plugin URI: https://www.damiencarbery.com/downloads-for-logged-in-users/
 Author: Damien Carbery
 Author URI: https://www.damiencarbery.com
 License: GPL v3 or later
