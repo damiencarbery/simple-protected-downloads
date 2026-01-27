@@ -19,7 +19,7 @@ The download url is not the url of the file; it is a custom url with the post ID
 
 The plugin is enabled for translation.
 
-If you find a bug or have a feature request, please report it via the plugin's GitHub repository.
+If you find a bug or have a feature request, please report it via the plugin's [GitHub repository](https://github.com/damiencarbery/downloads-for-logged-in-users).
 
 == Frequently Asked Questions ==
 None yet.
@@ -30,7 +30,7 @@ None yet.
 * Change upload dir to uploads/downloads-for-logged-in-users.
 
 = 0.4.20260126 =
-* Rename files, text domain to use new slug, 'downloads-for-logged-in-users',  as requested during WordPress Plugin review.
+* Rename files, text domain to use new slug, 'downloads-for-logged-in-users', as requested during WordPress Plugin review.
 
 = 0.3.20260125 =
 * Change plugin name to "Downloads for logged in users" as requested during WordPress Plugin review.
@@ -54,27 +54,27 @@ None yet.
 
 The access can be changed with the '*liudownload_check_perms*' filter, returning true to allow the download.
 For example:
-`<?php
-// If the download ID is 1 then allow the download.
-add_filter( 'liudownload_check_perms', 'my_download_perms_check', 10, 2 );
-function my_download_perms_check( $user_logged_in, $download_id ) {
-	if ( 1 == $download_id ) { return true; }
+	<?php
+	// If the download ID is 1 then allow the download.
+	add_filter( 'liudownload_check_perms', 'my_download_perms_check', 10, 2 );
+	function my_download_perms_check( $user_logged_in, $download_id ) {
+		if ( 1 == $download_id ) { return true; }
 
-	return $user_logged_in;
-}
-`
+		return $user_logged_in;
+	}
+
 
 After a file has been downloaded the '*liudownload_after_download*' action runs. This could allow tracking of downloads.
 For example:
-`<?php
-add_action( 'sliudownload_after_download', 'note_downloads' );
-function note_downloads( $download_id ) {
-	$download_count = get_post_meta( $download_id, 'dl_count', true );
-	if ( $download_count ) {
-		$download_count++;
-	} else {
-		$download_count = 1;
+	<?php
+	add_action( 'sliudownload_after_download', 'note_downloads' );
+	function note_downloads( $download_id ) {
+		$download_count = get_post_meta( $download_id, 'dl_count', true );
+		if ( $download_count ) {
+			$download_count++;
+		} else {
+			$download_count = 1;
+		}
+		update_post_meta( $download_id, 'dl_count', $download_count );
 	}
-	update_post_meta( $download_id, 'dl_count', $download_count );
-}
-`
+
