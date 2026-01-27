@@ -176,7 +176,7 @@ class DownloadsForLoggedInUsers {
 				// Ensure that the user is logged in before allowing the download.
 				$user_logged_in = is_user_logged_in();
 				// Developers can use the filter to change the access permissions.
-				$user_can_download = apply_filters( 'spdownload_check_perms', $user_logged_in, $post_id );
+				$user_can_download = apply_filters( 'liudownload_check_perms', $user_logged_in, $post_id );
 
 				if ( $user_can_download ) {
 					$file_name = get_post_meta( $post_id, $this->meta_key, true );
@@ -199,7 +199,7 @@ class DownloadsForLoggedInUsers {
 							// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 							echo file_get_contents( $file_path );
 
-							do_action( 'spdownload_after_download', $post_id );
+							do_action( 'liudownload_after_download', $post_id );
 
 							exit;
 						}
