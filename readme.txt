@@ -4,7 +4,7 @@ Tags: download, downloads, download manager
 Requires at least: 6.7
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 0.4.20260126
+Stable tag: 0.5.20260127
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -15,6 +15,9 @@ Limit access to specified media files to logged in users. Very simple interface 
 None yet.
 
 == Changelog ==
+
+= 0.5.20260127 =
+* Change upload dir to uploads/downloads-for-logged-in-users.
 
 = 0.4.20260126 =
 * Rename files, text domain to use new slug, 'downloads-for-logged-in-users',  as requested during WordPress Plugin review.

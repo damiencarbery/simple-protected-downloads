@@ -9,7 +9,7 @@ License: GPL v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Text Domain: downloads-for-logged-in-users
 Domain Path: /languages
-Version: 0.4.20260126
+Version: 0.5.20260127
 */
 
 defined( 'ABSPATH' ) || exit;
@@ -83,7 +83,7 @@ class DownloadsForLoggedInUsers {
 
 	private function get_uploads_dir() {
 		if ( empty( $this->uploads_dir ) ) {
-			$this->uploads_dir = sprintf( '%s/%s/', wp_get_upload_dir()['basedir'], 'spd_uploads' );
+			$this->uploads_dir = sprintf( '%s/%s/', wp_upload_dir( null, false )['basedir'], 'downloads-for-logged-in-users' );
 		}
 
 		return $this->uploads_dir;
@@ -386,8 +386,10 @@ class DownloadsForLoggedInUsers {
 	function add_download_url_copying_js() {
 		$screen = get_current_screen();
 		if ( 'edit-dcwd_simple_download' == $screen->id ) {
-			wp_enqueue_style( 'downloads-for-logged-in-users', plugins_url( 'assets/downloads-for-logged-in-users.css', __FILE__ ) );
-			wp_enqueue_script( 'downloads-for-logged-in-users', plugins_url( 'assets/downloads-for-logged-in-users.js', __FILE__ ), array( 'jquery' ) );
+			$plugin_data = get_plugin_data( WP_PLUGIN_DIR . '/' . plugin_basename(__FILE__) );
+
+			wp_enqueue_style( 'downloads-for-logged-in-users', plugins_url( 'assets/downloads-for-logged-in-users.css', __FILE__ ), null, $plugin_data['Version'] );
+			wp_enqueue_script( 'downloads-for-logged-in-users', plugins_url( 'assets/downloads-for-logged-in-users.js', __FILE__ ), array( 'jquery' ), $plugin_data['Version'], array( 'in_footer' => true ) );
 		}
 	}
 }
