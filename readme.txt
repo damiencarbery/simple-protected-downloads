@@ -10,6 +10,16 @@ License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
 Limit access to specified media files to logged in users. Very simple interface with no unnecessary features.
 
+Create a new 'Download' post, give it a title and upload a file for it. Files are stored in a protected directory under wp-content/uploads. This prevents anyone from accessing a file, even if they have the url.
+Access is via a custom download url that can be copied from the plugin's admin screen.
+
+Downloads can be assigned categories though these are for site admin organisation use and are not used in the custom url.
+
+The download url is not the url of the file; it is a custom url with the post ID. This allows you update the downloadable file without having to change the download url.
+
+The plugin is enabled for translation.
+
+If you find a bug or have a feature request, please report it via the plugin's GitHub repository.
 
 == Frequently Asked Questions ==
 None yet.
@@ -35,15 +45,18 @@ None yet.
 None yet.
 
 == Screenshots ==
-None yet.
+1. The Downloads admin page allows you click to copy the custom download url.
+2. Edit a download to change the uploaded file and/or the download title.
+3. Create a new download.
+4. A JavaScript alert is shown when the user is not logged in.
 
 == Developer information ==
 
-The access can be changed with the '*spdownload_check_perms*' filter, returning true to allow the download.
+The access can be changed with the '*liudownload_check_perms*' filter, returning true to allow the download.
 For example:
 `<?php
 // If the download ID is 1 then allow the download.
-add_filter( 'spdownload_check_perms', 'my_download_perms_check', 10, 2 );
+add_filter( 'liudownload_check_perms', 'my_download_perms_check', 10, 2 );
 function my_download_perms_check( $user_logged_in, $download_id ) {
 	if ( 1 == $download_id ) { return true; }
 
@@ -51,10 +64,10 @@ function my_download_perms_check( $user_logged_in, $download_id ) {
 }
 `
 
-After a file has been downloaded the '*spdownload_after_download*' action runs. This could allow tracking of downloads.
+After a file has been downloaded the '*liudownload_after_download*' action runs. This could allow tracking of downloads.
 For example:
 `<?php
-add_action( 'spdownload_after_download', 'note_downloads' );
+add_action( 'sliudownload_after_download', 'note_downloads' );
 function note_downloads( $download_id ) {
 	$download_count = get_post_meta( $download_id, 'dl_count', true );
 	if ( $download_count ) {
