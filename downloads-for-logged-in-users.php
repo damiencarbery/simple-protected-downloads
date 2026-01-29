@@ -9,7 +9,7 @@ License: GPL v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Text Domain: downloads-for-logged-in-users
 Domain Path: /languages
-Version: 0.5.20260127
+Version: 0.6.20260128
 */
 
 defined( 'ABSPATH' ) || exit;
@@ -176,7 +176,7 @@ class DownloadsForLoggedInUsers {
 				// Ensure that the user is logged in before allowing the download.
 				$user_logged_in = is_user_logged_in();
 				// Developers can use the filter to change the access permissions.
-				$user_can_download = apply_filters( 'liudownload_check_perms', $user_logged_in, $post_id );
+				$user_can_download = apply_filters( 'spdownload_check_perms', $user_logged_in, $post_id );
 
 				if ( $user_can_download ) {
 					$file_name = get_post_meta( $post_id, $this->meta_key, true );
@@ -199,16 +199,17 @@ class DownloadsForLoggedInUsers {
 							// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 							echo file_get_contents( $file_path );
 
-							do_action( 'liudownload_after_download', $post_id );
+							do_action( 'spdownload_after_download', $post_id );
 
 							exit;
 						}
 					}
 				}
+				else {
+					add_action( 'wp_footer', array( $this, 'download_not_permitted_message' ) );
+				}
 			}
 		}
-
-		add_action( 'wp_footer', array( $this, 'download_not_permitted_message' ) );
 
 		// Nothing matched our endpoint.
 		return $template;
