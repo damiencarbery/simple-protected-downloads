@@ -4,7 +4,7 @@ Tags: download, downloads, download manager
 Requires at least: 6.7
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 0.5.20260127
+Stable tag: 0.6.20260128
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -52,7 +52,7 @@ After a file has been downloaded the '*liudownload_after_download*' action runs.
 For example:
 
 	<?php
-	add_action( 'sliudownload_after_download', 'note_downloads' );
+	add_action( 'liudownload_after_download', 'note_downloads' );
 	function note_downloads( $download_id ) {
 		$download_count = get_post_meta( $download_id, 'dl_count', true );
 		if ( $download_count ) {
@@ -70,6 +70,9 @@ For example:
 4. A JavaScript alert is shown when the user is not logged in.
 
 == Changelog ==
+
+= 0.6.20260128 =
+* JS alert was showing at every page load - the add_action() was in the wrong place.
 
 = 0.5.20260127 =
 * Change upload dir to uploads/downloads-for-logged-in-users.
