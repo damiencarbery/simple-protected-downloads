@@ -9,7 +9,7 @@ License: GPL v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Text Domain: downloads-for-logged-in-users
 Domain Path: /languages
-Version: 0.6.20260128
+Version: 0.7.20260227
 */
 
 defined( 'ABSPATH' ) || exit;
@@ -61,6 +61,8 @@ class DownloadsForLoggedInUsers {
 		add_action( 'init', array( $this, 'register_download_endpoint' ) );
 
 
+		// Redirect CPT permalink to link to download file.
+		add_action( 'template_redirect', array( $this, 'redirect_to_download_file' ) );
 		// Download the requested file.
 		add_action( 'template_include', array( $this, 'download_file' ) );
 
@@ -139,6 +141,7 @@ class DownloadsForLoggedInUsers {
 			'show_in_admin_bar'     => true,
 			'show_in_nav_menus'     => false,
 			'can_export'            => true,
+			'public'                => true,
 			'exclude_from_search'   => true,
 			'publicly_queryable'    => false,
 			'rewrite'               => false,
@@ -150,6 +153,7 @@ class DownloadsForLoggedInUsers {
 	}
 
 
+	// Register the download url.
 	public function register_download_endpoint() {
 		add_rewrite_endpoint( $this->download_url, EP_ROOT );
 	}
@@ -163,6 +167,15 @@ class DownloadsForLoggedInUsers {
 			if ( file_exists( $file_path ) ) {
 				wp_delete_file( $file_path );
 			}
+		}
+	}
+
+
+	// Redirect CPT permalink to link to download file.
+	public function redirect_to_download_file() {
+		if ( is_singular( 'dcwd_simple_download' ) ) {
+			wp_safe_redirect( home_url( sprintf( '/%s/%d/', $this->download_url, get_the_ID() ) ) );
+			exit;
 		}
 	}
 

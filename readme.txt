@@ -4,7 +4,7 @@ Tags: download, downloads, download manager
 Requires at least: 6.7
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 0.6.20260128
+Stable tag: 0.7.20260227
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -70,6 +70,10 @@ For example:
 4. A JavaScript alert is shown when the user is not logged in.
 
 == Changelog ==
+
+= 0.7.20260227 =
+* Allow Download posts to be used in block edit links (making them available in link search).
+* Redirect the Download post's permalink (returned by link search) to the download link (that checks permissions).
 
 = 0.6.20260128 =
 * JS alert was showing at every page load - the add_action() was in the wrong place.
