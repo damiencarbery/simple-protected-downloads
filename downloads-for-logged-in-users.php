@@ -143,7 +143,7 @@ class DownloadsForLoggedInUsers {
 			'can_export'            => true,
 			'public'                => true,
 			'exclude_from_search'   => true,
-			'publicly_queryable'    => false,
+			'publicly_queryable'    => true,
 			'rewrite'               => false,
 			'capability_type'       => 'page',
 			'show_in_rest'          => false,

@@ -33,6 +33,9 @@ None yet.
 == Upgrade Notice ==
 None yet.
 
+== ToDo ==
+- Change list view Download link to a link (to allow right click Copy Link) though block left click with JavaScript.
+
 == Developer information ==
 
 The access can be changed with the '*liudownload_check_perms*' filter, returning true to allow the download.
@@ -74,6 +77,7 @@ For example:
 = 0.7.20260227 =
 * Allow Download posts to be used in block edit links (making them available in link search).
 * Redirect the Download post's permalink (returned by link search) to the download link (that checks permissions).
+* Enable 'View' quick link on Downloads list view so the permalink can be selected another way.
 
 = 0.6.20260128 =
 * JS alert was showing at every page load - the add_action() was in the wrong place.
