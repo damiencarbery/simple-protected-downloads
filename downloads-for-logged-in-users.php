@@ -142,11 +142,11 @@ class DownloadsForLoggedInUsers {
 			'show_in_nav_menus'     => false,
 			'can_export'            => true,
 			'public'                => true,
-			'exclude_from_search'   => true,
+			'exclude_from_search'   => false,
 			'publicly_queryable'    => true,
 			'rewrite'               => false,
 			'capability_type'       => 'page',
-			'show_in_rest'          => false,
+			'show_in_rest'          => true,
 			'register_meta_box_cb'  => array( $this, 'add_file_metabox' ),
 		);
 		register_post_type( $this->cpt_name, $args );
