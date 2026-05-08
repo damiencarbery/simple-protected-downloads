@@ -9,7 +9,7 @@ License: GPL v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Text Domain: downloads-for-logged-in-users
 Domain Path: /languages
-Version: 0.7.20260227
+Version: 0.8.20260508
 */
 
 defined( 'ABSPATH' ) || exit;
@@ -71,6 +71,8 @@ class DownloadsForLoggedInUsers {
 
 		// Save the data submitted through the metabox.
 		add_action( 'save_post_' . $this->cpt_name, array( $this, 'save_file_metabox' ) );
+		// Add 'Download link' button to CPT Edit page.
+		add_action( 'edit_form_after_title', array( $this, 'add_copy_link_button' ) );
 
 		// Show the download link in the CPT list table.
 		add_filter( 'manage_' . $this->cpt_name . '_posts_columns', array( $this, 'add_file_column' ) );
@@ -356,6 +358,14 @@ class DownloadsForLoggedInUsers {
 	}
 
 
+	// Add 'Download link' button to CPT Edit page to copy the link.
+	function add_copy_link_button( $post ) {
+		// Only display when this CPT is published (not when you click 'Add new').
+		if ( $post->post_type === $this->cpt_name  && 'auto-draft' != $post->post_status ) {
+			echo wp_sprintf( '<div class="spd-copy-url button button-primary" data-spd_url="%s" href="#" title="%s">%s</div>', esc_attr( $this->get_download_url( $post->ID ) ), esc_html__( 'Click to copy the download url.', 'downloads-for-logged-in-users' ), esc_html__( 'Download link', 'downloads-for-logged-in-users' ) );
+		}
+	}
+
 	// Add custom column to dcwd_simple_download post type admin list
 	function add_file_column( $columns ) {
 		// Insert the File column after the title
@@ -399,7 +409,9 @@ class DownloadsForLoggedInUsers {
 	// Add CSS for the Download link and JS to copy it to the clipboard.
 	function add_download_url_copying_js() {
 		$screen = get_current_screen();
-		if ( 'edit-dcwd_simple_download' == $screen->id ) {
+
+		// Load the CSS/JS in the Downloads listing page and the Edit Download page.
+		if ( 'edit-dcwd_simple_download' == $screen->id || 'dcwd_simple_download' == $screen->id ) {
 			$plugin_data = get_plugin_data( WP_PLUGIN_DIR . '/' . plugin_basename(__FILE__) );
 
 			wp_enqueue_style( 'downloads-for-logged-in-users', plugins_url( 'assets/downloads-for-logged-in-users.css', __FILE__ ), null, $plugin_data['Version'] );
