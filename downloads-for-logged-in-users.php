@@ -9,7 +9,7 @@ License: GPL v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Text Domain: downloads-for-logged-in-users
 Domain Path: /languages
-Version: 0.8.20260508
+Version: 0.8.20260511
 */
 
 defined( 'ABSPATH' ) || exit;
@@ -122,6 +122,7 @@ class DownloadsForLoggedInUsers {
 		$labels = array(
 			'name'                  => _x( 'Downloads', 'Post Type General Name', 'downloads-for-logged-in-users' ),
 			'singular_name'         => _x( 'Download', 'Post Type Singular Name', 'downloads-for-logged-in-users' ),
+			'edit_item'             => __( 'Edit Download', 'downloads-for-logged-in-users' ),
 			'menu_name'             => __( 'Downloads', 'downloads-for-logged-in-users' ),
 			'name_admin_bar'        => __( 'Download', 'downloads-for-logged-in-users' ),
 			'all_items'             => __( 'All downloads', 'downloads-for-logged-in-users' ),
@@ -145,7 +146,7 @@ class DownloadsForLoggedInUsers {
 			'can_export'            => true,
 			'public'                => true,
 			'exclude_from_search'   => false,
-			'publicly_queryable'    => true,
+			'publicly_queryable'    => false,  // this will remove the 'Permalink' field from the Edit Post
 			'rewrite'               => false,
 			'capability_type'       => 'page',
 			'show_in_rest'          => true,

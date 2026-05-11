@@ -4,7 +4,7 @@ Tags: download, downloads, download manager
 Requires at least: 6.7
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 0.7.20260227
+Stable tag: 0.8.20260511
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -35,6 +35,7 @@ None yet.
 
 == ToDo ==
 - Change list view Download link to a link (to allow right click Copy Link) though block left click with JavaScript.
+- Add a feature to move items from Media Library to private downloads CPT - possible 'Pro' option.
 
 == Developer information ==
 
@@ -73,6 +74,11 @@ For example:
 4. A JavaScript alert is shown when the user is not logged in.
 
 == Changelog ==
+
+= 0.8.20260511 =
+* Add "Download link" button to Edit Download page so the link can be copied after publishing.
+* Add "Edit Download" label so that the edit screen shows this instead of "Edit Post".
+* Remove Permalink field from Edit Download page as the link is not the download link.
 
 = 0.7.20260227 =
 * Allow Download posts to be used in block edit links (making them available in link search).
