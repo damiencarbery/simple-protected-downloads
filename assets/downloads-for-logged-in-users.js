@@ -15,9 +15,4 @@ jQuery(document).ready(function( $ ) {
 			console.error('Async: Could not copy text: ', err);
 		});
 	});
-
-	// Disable clicking on the post permalink as it downloads the file, something the post editor probably doesn't want.
-	$( '#sample-permalink' ).on( 'click', function(e) {
-		e.preventDefault();
-	});
 });
