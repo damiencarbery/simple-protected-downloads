@@ -9,7 +9,7 @@ License: GPL v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Text Domain: downloads-for-logged-in-users
 Domain Path: /languages
-Version: 0.8.20260511
+Version: 0.9.20260512
 */
 
 defined( 'ABSPATH' ) || exit;

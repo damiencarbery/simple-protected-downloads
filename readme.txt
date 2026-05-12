@@ -4,7 +4,7 @@ Tags: download, downloads, download manager
 Requires at least: 6.7
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 0.8.20260511
+Stable tag: 0.9.20260512
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -74,6 +74,9 @@ For example:
 4. A JavaScript alert is shown when the user is not logged in.
 
 == Changelog ==
+
+= 0.9.20260512 =
+* Change Download post permalink to be the download url. This ensures links inserted into block editor are the download url.
 
 = 0.8.20260511 =
 * Add "Download link" button to Edit Download page so the link can be copied after publishing.
