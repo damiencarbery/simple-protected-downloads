@@ -60,10 +60,8 @@ class DownloadsForLoggedInUsers {
 		// Register the download url.
 		add_action( 'init', array( $this, 'register_download_endpoint' ) );
 
-		// Change REST API link to use download url.
-//		add_action( 'rest_api_init', array( $this, 'change_rest_api_link_field' ) );
-//add_filter( 'rest_pre_echo_response', array( $this, 'rest_pre_echo_response' ), 10, 3 );
-add_filter( 'post_type_link', array( $this, 'post_type_link' ), 10, 4 );
+		// Change permalink to download url. This changes link in REST API search and in block editor.
+		add_filter( 'post_type_link', array( $this, 'post_type_link' ), 10, 4 );
 
 		// Redirect CPT permalink to link to download file.
 		add_action( 'template_redirect', array( $this, 'redirect_to_download_file' ) );
@@ -88,48 +86,7 @@ add_filter( 'post_type_link', array( $this, 'post_type_link' ), 10, 4 );
 		add_action( 'before_delete_post', array( $this, 'delete_post' ), 10, 2 );
 	}
 
-public function post_type_link( $post_link, $post, $leavename, $sample ) {
-	if ( $post->post_type === $this->cpt_name ) {
-		return $this->get_download_url( $post->ID );
-	}
-	return $post_link;
-}
 
-/*public function rest_pre_echo_response( $response, $object, $request ) {
-	return $response;
-}*/
-
-/*
-public function change_rest_api_link_field() {
-	register_rest_field( $this->cpt_name, 'url', array(
-	       'get_callback'    => array( $this, 'get_download_url_for_rest_api' ),
-	       'schema'          => null,
-	    )
-	);
-	register_rest_field( $this->cpt_name, 'guid', array(
-	       'get_callback'    => array( $this, 'get_download_url_for_rest_api' ),
-	       'schema'          => null,
-	    )
-	);
-	register_rest_field( $this->cpt_name, 'link', array(
-	       'get_callback'    => array( $this, 'get_download_url_for_rest_api' ),
-	       'schema'          => null,
-	    )
-	);
-}
-public function get_download_url_for_rest_api( $object, $request ) {
-	//get the id of the post object array
-error_log( '$request: ' . var_export( $request, true ) );
-	$post_id = $object['id'];
-	if ( 'guid' == $request ) {
-		return array( 'rendered' => $this->get_download_url( $post_id ) );
-	}
-	if ( 'url' == $request || 'link' == $request ) {
-		return $this->get_download_url( $post_id );
-	}
-	//return $this->get_download_url( $post_id );
-}
-*/
 	private function get_uploads_dir() {
 		if ( empty( $this->uploads_dir ) ) {
 			$this->uploads_dir = sprintf( '%s/%s/', wp_upload_dir( null, false )['basedir'], 'downloads-for-logged-in-users' );
@@ -207,7 +164,17 @@ error_log( '$request: ' . var_export( $request, true ) );
 	}
 
 
-	// Delete the uploaded file when A Download post is deleted.
+	// Change permalink to download url. This changes link in REST API search and in block editor.
+	public function post_type_link( $post_link, $post, $leavename, $sample ) {
+		// Limit change to this CPT.
+		if ( $post->post_type === $this->cpt_name ) {
+			return $this->get_download_url( $post->ID );
+		}
+		return $post_link;
+	}
+
+
+	// Delete the uploaded file when a Download post is deleted.
 	public function delete_post( $post_id, $post ) {
 		$file_name = get_post_meta( $post_id, $this->meta_key, true );
 		if ( $file_name ) {
