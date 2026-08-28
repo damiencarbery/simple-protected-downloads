@@ -9,7 +9,7 @@ License: GPL v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Text Domain: downloads-for-logged-in-users
 Domain Path: /languages
-Version: 0.9.20260512
+Version: 1.0.20260828
 */
 
 defined( 'ABSPATH' ) || exit;
@@ -20,7 +20,7 @@ defined( 'ABSPATH' ) || exit;
 register_activation_hook( __FILE__, 'DownloadsForLoggedInUsers_activate' );
 register_deactivation_hook( __FILE__, 'DownloadsForLoggedInUsers_activate' );
 function DownloadsForLoggedInUsers_activate() {
-	// Force rewrite rules to be recreated at the right time
+	// Force rewrite rules to be recreated at the right time.
 	delete_option( 'rewrite_rules' );
 }
 
@@ -375,7 +375,9 @@ class DownloadsForLoggedInUsers {
 	function add_copy_link_button( $post ) {
 		// Only display when this CPT is published (not when you click 'Add new').
 		if ( $post->post_type === $this->cpt_name  && 'auto-draft' != $post->post_status ) {
-			echo wp_sprintf( '<div class="spd-copy-url button button-primary" data-spd_url="%s" href="#" title="%s">%s</div>', esc_attr( $this->get_download_url( $post->ID ) ), esc_html__( 'Click to copy the download url.', 'downloads-for-logged-in-users' ), esc_html__( 'Download link', 'downloads-for-logged-in-users' ) );
+			echo wp_sprintf( '<a class="spd-copy-url button button-primary" href="%s" data-spd_url="%s" title="%s" data-copied="%s">%s</a>',
+			esc_attr( $this->get_download_url( $post->ID ) ), esc_attr( $this->get_download_url( $post->ID ) ), esc_html__( 'Click to copy the download url.', 'downloads-for-logged-in-users' ),
+			esc_attr__( 'Copied', 'downloads-for-logged-in-users' ), esc_html__( 'Download link', 'downloads-for-logged-in-users' ) );
 		}
 	}
 
@@ -408,8 +410,8 @@ class DownloadsForLoggedInUsers {
 						return;
 					}
 					if ( $column == $this->link_col ) {
-						echo wp_sprintf( '<div class="spd-copy-url dashicons dashicons-admin-links" data-spd_url="%s" title="%s"></div>',
-						esc_attr( $this->get_download_url( $post_id ) ), esc_html__( 'Click to copy the download url.', 'downloads-for-logged-in-users' ) );
+						echo wp_sprintf( '<a class="spd-copy-url dashicons dashicons-admin-links" href="%s" data-spd_url="%s" title="%s" data-copied="%s"></a>',
+						esc_attr( $this->get_download_url( $post_id ) ), esc_attr( $this->get_download_url( $post_id ) ), esc_html__( 'Click to copy the download url.', 'downloads-for-logged-in-users' ), esc_attr__( 'Copied', 'downloads-for-logged-in-users' ) );
 						return;
 					}
 				}

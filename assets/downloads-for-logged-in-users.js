@@ -3,7 +3,8 @@ jQuery(document).ready(function( $ ) {
 	classToAdd = 'info-copied';
 	timeoutDelay = '1000';  // 1000 milliseconds == 1 second.
 
-	$( '.spd-copy-url' ).on( 'click', function() {
+	$( '.spd-copy-url' ).on( 'click', function( event ) {
+		event.preventDefault();
 		spDownloadIcon = $(this);
 		spDownloadUrl = spDownloadIcon.data('spd_url');
 

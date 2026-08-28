@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Downloads for logged in users 0.8.20260511\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/downloads-for-logged-in-users\n"
-"POT-Creation-Date: 2026-05-11 09:30:11+00:00\n"
+"POT-Creation-Date: 2026-08-28 20:47:11+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -72,6 +72,10 @@ msgstr ""
 
 #: downloads-for-logged-in-users.php:366 downloads-for-logged-in-users.php:400
 msgid "Click to copy the download url."
+msgstr ""
+
+#: downloads-for-logged-in-users.php:380 downloads-for-logged-in-users.php:414
+msgid "Copied"
 msgstr ""
 
 #: downloads-for-logged-in-users.php:366 downloads-for-logged-in-users.php:377

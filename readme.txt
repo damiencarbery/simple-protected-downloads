@@ -2,9 +2,9 @@
 Contributors: daymobrew
 Tags: download, downloads, download manager
 Requires at least: 6.7
-Tested up to: 6.9
+Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.9.20260512
+Stable tag: 1.0.20260828
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -34,8 +34,8 @@ None yet.
 None yet.
 
 == ToDo ==
-- Change list view Download link to a link (to allow right click Copy Link) though block left click with JavaScript.
 - Add a feature to move items from Media Library to private downloads CPT - possible 'Pro' option.
+- Have a clear UX for when the post does not exist.
 
 == Developer information ==
 
@@ -74,6 +74,10 @@ For example:
 4. A JavaScript alert is shown when the user is not logged in.
 
 == Changelog ==
+= 1.0.20260828 =
+* Change 'Download link' in list and Edit views to a link (to allow right click Copy Link). Clicking still copies url to the clipboard.
+* Make 'Copied' string available for translation, moving it from CSS to data-copied attribute.
+* Use --wp-admin-theme-color for the 'Download link' background colour so it follows the user's administration colour scheme.
 
 = 0.9.20260512 =
 * Change Download post permalink to be the download url. This ensures links inserted into block editor are the download url.
